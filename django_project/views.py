@@ -6,6 +6,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from django.middleware.csrf import get_token
+from django.http import JsonResponse
+from google.cloud import bigquery
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -40,3 +42,22 @@ def csrf_view(request):
     # just by calling this, Django will set the csrftoken cookie
     get_token(request)
     return Response({"detail": "CSRF cookie set"})
+
+@api_view(["GET"])
+def get_data(request):
+    client = bigquery.Client()   # <-- no credentials explicitly
+    QUERY = "SELECT * FROM `lab-workflow-ex.lab_workflows_ds.df-output` LIMIT 1000"
+    rows = client.query(QUERY).result()
+
+    data = [
+        {
+            "sample_id": r[0],
+            "run_id": r[1],
+            "status": r[2],
+            "read_count": int(r[3]),
+            "created_at": r[4],
+        }
+        for r in rows
+    ]
+
+    return JsonResponse(data, safe=False)

@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/auth/login/', views.login_view),
     path('api/auth/logout/', views.logout_view),
     path('api/auth/me/', views.me_view),
+    path('api/data/', views.get_data),
     ]

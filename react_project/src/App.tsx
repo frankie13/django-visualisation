@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import LoginForm from "./components/LoginForm";
 import { initCsrf, getCurrentUser, logout, User } from "./authApi";
+import RunsOverTimeChart from "./components/RunsOverTimeChart";
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -31,6 +32,8 @@ const App: React.FC = () => {
         <>
           <h1>Welcome, {user.username}</h1>
           <button onClick={handleLogout}>Log out</button>
+          <br />
+          <RunsOverTimeChart />
         </>
       ) : (
         <LoginForm onLogin={setUser} />

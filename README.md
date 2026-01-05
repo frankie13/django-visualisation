@@ -8,7 +8,7 @@ source .venv/bin/activate
 ```
 
 ```
-pip install django~=5.2
+pip install -r requirements.txt
 python manage.py migrate
 ```
 
@@ -18,5 +18,14 @@ python manage.py createsuperuser
 
 ### Start Development Server
 ```
+gcloud auth application-default login
+
 python manage.py runserver
+```
+
+### Front End
+```
+cd react_project
+npm install
+npm run start
 ```
