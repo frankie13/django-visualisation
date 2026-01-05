@@ -45,19 +45,21 @@ def csrf_view(request):
 
 @api_view(["GET"])
 def get_data(request):
-    client = bigquery.Client()   # <-- no credentials explicitly
-    QUERY = "SELECT * FROM `lab-workflow-ex.lab_workflows_ds.df-output` LIMIT 1000"
-    rows = client.query(QUERY).result()
+    if request.user.is_authenticated:
+        client = bigquery.Client()   # <-- no credentials explicitly
+        QUERY = "SELECT * FROM `lab-workflow-ex.lab_workflows_ds.df-output` LIMIT 1000"
+        rows = client.query(QUERY).result()
 
-    data = [
-        {
-            "sample_id": r[0],
-            "run_id": r[1],
-            "status": r[2],
-            "read_count": int(r[3]),
-            "created_at": r[4],
-        }
-        for r in rows
-    ]
+        data = [
+            {
+                "sample_id": r[0],
+                "run_id": r[1],
+                "status": r[2],
+                "read_count": int(r[3]),
+                "created_at": r[4],
+            }
+            for r in rows
+        ]
 
-    return JsonResponse(data, safe=False)
+        return JsonResponse(data, safe=False)
+    return Response({"detail": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
