@@ -20,7 +20,7 @@ interface Run {
   created_at: string;      // ISO date string
 }
 
-const API_URL = "http://localhost:8000/api/data/";
+const API_URL = "https://django-backend-1098462988032.europe-west1.run.app/api/data/";
 
 const statusColor: Record<string, string> = {
   completed: "#4caf50",
