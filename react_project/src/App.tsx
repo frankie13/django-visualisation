@@ -10,7 +10,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     async function bootstrap() {
-      await initCsrf();                 // ensure csrftoken exists
+      await initCsrf();                 
       const me = await getCurrentUser(); // check existing session
       setUser(me);
       setChecking(false);
